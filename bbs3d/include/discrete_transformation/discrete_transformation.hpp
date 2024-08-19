@@ -24,7 +24,7 @@ public:
     pitch(pitch),
     yaw(yaw) {}
 
-  ~DiscreteTransformation() {}
+  ~DiscreteTransformation() = default;
 
   bool operator<(const DiscreteTransformation& rhs) const { return score < rhs.score; }
 

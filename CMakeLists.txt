@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 project(bbs3d)
 
+# --------------For debugging-------------------
+# add_compile_options(-g)
+# set(CUDA_NVCC_FLAGS "${CMAKE_CUDA_FLAGS} --expt-relaxed-constexpr -G -g --extended-lambda -Xcompiler -rdynamic -lineinfo")
+# ----------------------------------------------
 ## find thirdparty/Eigen or Eigen3 package
 option(USE_THIRDPARTY_EIGEN "Include thirdparty eigen" OFF)
 file(GLOB entries "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/Eigen/*")
