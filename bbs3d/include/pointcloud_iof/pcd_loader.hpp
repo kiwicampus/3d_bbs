@@ -51,6 +51,34 @@ bool load_tar_clouds(const std::string& tar_path, const float tar_leaf_size, pcl
   return true;
 }
 
+bool load_single_tar_cloud(const std::string& tar_path, const float tar_leaf_size, pcl::PointCloud<pcl::PointXYZ>::Ptr& tar_cloud_ptr)
+{
+    // Load pcd file
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>());
+    if (pcl::io::loadPCDFile(tar_path, *cloud_ptr) == -1)
+    {
+        std::cout << "[WARN] Can not open pcd file: " << tar_path << std::endl;
+        return false;
+    }
+
+    // Downsample
+    if (tar_leaf_size != 0.0f)
+    {
+        pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>());
+        pcl::ApproximateVoxelGrid<pcl::PointXYZ> filter;
+        filter.setLeafSize(tar_leaf_size, tar_leaf_size, tar_leaf_size);
+        filter.setInputCloud(cloud_ptr);
+        filter.filter(*filtered_cloud_ptr);
+        *tar_cloud_ptr = *filtered_cloud_ptr;
+    }
+    else
+    {
+        *tar_cloud_ptr = *cloud_ptr;
+    }
+
+    return true;
+}
+
 bool can_convert_to_int(const std::vector<std::pair<std::string, std::string>>& name_vec) {
   for (const auto& str : name_vec) {
     try {
